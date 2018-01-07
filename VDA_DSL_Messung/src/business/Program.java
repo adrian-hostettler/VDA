@@ -1,14 +1,18 @@
 package business;
 
-import java.io.IOException;
-
 import util.HttpUtil;
 
 public class Program {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		HttpUtil.loginToServer();
+		
+			
+				FritzBoxConnector fbCon = new FritzBoxConnector("http://192.168.147.200/", "admin");
+				fbCon.fritzBoxLogin();
+				fbCon.readDSLData();
+			
+		
 	}
 
 }
