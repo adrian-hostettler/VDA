@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import util.Encryption;
 import util.HttpUtil;
@@ -59,12 +59,16 @@ public class FritzBoxConnector {
 	}
 	public String readDSLData() {
 		// URL für DSL Daten
-		// http://192.168.147.200/?sid=<sid>&lp=dslstat
+		// http://192.168.147.200/
 		Document response;
 		try {
 			response = HttpUtil.getURLasDocument(url + "internet/dsl_stats_tab.lua?sid=" + sid);
-			Element dslData = (Element) response.getDocumentElement();
-			System.out.println(response);
+			Element dslData = (Element) response.getElementById("Table1");
+//			@TODO Daten aus Tabelle nehemen und Darstellung
+//			https://stackoverflow.com/questions/8222118/using-jsoup-to-extract-html-table-contents
+//			Tipp: 2.Dimensionales Array erstellen 1.Dimension - Zeilen, 2.Dimension - Spalten zur Weiterverarbeitung
+//			Array zurückgeben und DSL Daten schreiben
+			System.out.println(dslData);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

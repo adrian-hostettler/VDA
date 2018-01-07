@@ -7,12 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.http.HTTPException;
 
-import org.w3c.dom.Document;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.xml.sax.SAXException;
 
 
@@ -68,18 +66,10 @@ public class HttpUtil{
 		return stringBuilder.toString();
 	}
 	public static Document getURLasDocument(String urlString) throws IOException {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		try {
-			builder = factory.newDocumentBuilder();
-			Document document = builder.parse(getURL(urlString));
-			return document;
-		} catch (ParserConfigurationException | SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-return null;
+		//String url = urlString.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
+		InputStream is = getURL(urlString);
+		Document jsoupDoc = (Document) Jsoup.parse(is, null,"");
+		return jsoupDoc;
 		
 	}
 	
