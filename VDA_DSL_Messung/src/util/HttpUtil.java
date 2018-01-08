@@ -11,25 +11,23 @@ import javax.xml.ws.http.HTTPException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.xml.sax.SAXException;
 
 
-//import javax.xml.ws.http.HTTPException;
 
 
 public class HttpUtil{
 	
-	//https://stackoverflow.com/questions/4755647/how-to-access-https-sites-in-java
+//	Quelle: https://stackoverflow.com/questions/4755647/how-to-access-https-sites-in-java
 	
 	private static InputStream getURL(String urlString) {
 		try {
 		
-		// URL bekannt, da eine statische IP-Adresse vergeben wurde
+//		 URL bekannt, da eine statische IP-Adresse vergeben wurde
 		URL url = new URL(urlString);
 		HttpURLConnection http = (HttpURLConnection)url.openConnection();
 		
 		
-		//Get Methode, da nur Daten zu lesen sind
+//		Get Methode, da nur Daten zu lesen sind
 		http.setRequestMethod("GET");
 		http.connect();
 		InputStream is = http.getInputStream();
@@ -66,7 +64,7 @@ public class HttpUtil{
 		return stringBuilder.toString();
 	}
 	public static Document getURLasDocument(String urlString) throws IOException {
-		//String url = urlString.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
+//		String url = urlString.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
 		InputStream is = getURL(urlString);
 		Document jsoupDoc = (Document) Jsoup.parse(is, null,"");
 		return jsoupDoc;

@@ -6,11 +6,13 @@ import java.security.NoSuchAlgorithmException;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import util.Encryption;
 import util.HttpUtil;
 
-//https://github.com/ISchwarz23/FritzBox-API/blob/master/src/main/java/de/ingo/fritzbox/FritzBoxConnector.java
+//Quelle: https://github.com/ISchwarz23/FritzBox-API/blob/master/src/main/java/de/ingo/fritzbox/FritzBoxConnector.java
+
 public class FritzBoxConnector {
 	private final String url;
 	private final String password;
@@ -20,13 +22,17 @@ public class FritzBoxConnector {
 		this.password = password;
 	}
 	public void fritzBoxLogin() {
-		
+		/*
+		 * Für das Login der FritzBox muss eine Challenge, welche von der Startseite zurückgeschickt wird behandelt werden.
+		 *Über eine MD5 Encryption schicken wir die Challenge inklusive Passwort an die FritzBox zurück
+		 *Ist diese Challenge mit Passwort korrekt erhalten wir eine gültige SID
+		*/
 		String response;
 		try {
 			response = HttpUtil.getURLasString(url + "login_sid.lua");
-		} catch (IOException e1) {
+		} catch (IOException ioe) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			ioe.printStackTrace();
 			return;
 		}
 		final String challenge = response.substring(response.indexOf("<Challenge>")+11, response.indexOf("</Challenge>"));
@@ -45,33 +51,56 @@ public class FritzBoxConnector {
 			final String sid = urlWithChallenge.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
 			this.sid = sid;
 			//System.out.println(sid);
-		} catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException ue) {
 			// will never appear
-			e.printStackTrace();
+			ue.printStackTrace();
 			
-		} catch (final NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException nae) {
 			// will never appear
-			e.printStackTrace();
-		} catch (IOException e) {
+			nae.printStackTrace();
+		} catch (IOException ioe) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ioe.printStackTrace();
 		}
 	}
+	
+	
+	
 	public String readDSLData() {
-		// URL für DSL Daten
-		// http://192.168.147.200/
+		/*
+		 * Über den URL: http://192.168.147.200/internet/dsl_status_tab.lua=[*SID] gelange ich zu den DSL-Informationen
+		 */
 		Document response;
 		try {
 			response = HttpUtil.getURLasDocument(url + "internet/dsl_stats_tab.lua?sid=" + sid);
 			Element dslData = (Element) response.getElementById("Table1");
-//			@TODO Daten aus Tabelle nehemen und Darstellung
+			
+			//Zweidimensionales Array erstellen um Tabelle der DSL-Daten abzubilden
+//			String [] [] twoDimArray = new String [15] [4];
+//			
+//			for (Element table : response.select("Table1")) {
+//		        for (Element row : table.select("tr")) {
+//		        	int countR;
+//		        	for(countR = 0; countR <15; countR++) {
+//		        		 Elements tds = row.select("td");
+//				            int countTd;
+//				            for (countTd=0; countTd <4; countTd++) {
+//				            	twoDimArray [countR] [countTd] =
+//		        	}
+//		        		
+//		           
+//		            }
+//		        }
+//		    }
+			
+//			@TODO Daten aus Tabelle nehmen und Darstellung
 //			https://stackoverflow.com/questions/8222118/using-jsoup-to-extract-html-table-contents
 //			Tipp: 2.Dimensionales Array erstellen 1.Dimension - Zeilen, 2.Dimension - Spalten zur Weiterverarbeitung
 //			Array zurückgeben und DSL Daten schreiben
 			System.out.println(dslData);
-		} catch (IOException e) {
+		} catch (IOException ioe) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ioe.printStackTrace();
 		}
 		
 		return null;
