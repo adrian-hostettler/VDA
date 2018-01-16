@@ -14,7 +14,8 @@ import java.nio.file.Paths;
 // Quelle: Modul Java 2 Abend 4 - Java I/O
 public class FileHandler {
 
-	private static Path pathReportFile = Paths.get("C:" + File.separator + "vda" + File.separator + "test.txt");
+	private static Path pathReportFile = Paths.get("C:" + File.separator + "vda" + File.separator + "DSL_Data.txt");
+	
 	public Path createDirectory(){
 		
 		Path pathReport = Paths.get("C:" + File.separator + "vda");
@@ -33,8 +34,6 @@ public class FileHandler {
 		return pathReport;
 	}
 	
-	
-	
 	public Path createNewFile(Path dir, String fileName) {
 		
 		Path pathReportFile = dir.resolve(fileName + ".txt");
@@ -51,13 +50,13 @@ public class FileHandler {
 		return pathReportFile;
 	}
 	
-	public void writeDataInFile(String data) {
+	public void writeDataInFile(String dslDataAsString) {
 		try {
 			Path pathReportDir = createDirectory();
-			Path pathReportFile = createNewFile(pathReportDir, "test");
+			Path pathReportFile = createNewFile(pathReportDir, "DSL_Data");
 			String pathReportFileAsString = (String) pathReportFile.toString();
 			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(pathReportFileAsString)));
-			pw.println(data);
+			pw.println(dslDataAsString);
 			pw.close();
 		}
 		catch (IOException ioe) {
@@ -68,7 +67,6 @@ public class FileHandler {
 	
 	
 	}
-	
 	
 	public void readDataInFile() {
 		

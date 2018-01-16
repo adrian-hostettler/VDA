@@ -30,8 +30,8 @@ public class HttpUtil{
 //		Get Methode, da nur Daten zu lesen sind
 		http.setRequestMethod("GET");
 		http.connect();
-		InputStream is = http.getInputStream();
-		return is;
+		InputStream inputStream = http.getInputStream();
+		return inputStream;
 		}
 		
 //		@TODO Recherche Internet, warum HTTP Exception nicht geht
@@ -59,10 +59,11 @@ public class HttpUtil{
             stringBuilder.append(line + "\n");
         }
 		
-		
-		System.out.println(stringBuilder.toString());
+		// Test: Was erwartet mich vom Browser 
+		// System.out.println(stringBuilder.toString());
 		return stringBuilder.toString();
 	}
+	
 	public static Document getURLasDocument(String urlString) throws IOException {
 //		String url = urlString.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
 		InputStream is = getURL(urlString);
