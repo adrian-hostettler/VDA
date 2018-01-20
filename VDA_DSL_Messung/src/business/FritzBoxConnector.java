@@ -9,8 +9,17 @@ import org.jsoup.nodes.Document;
 import util.Encryption;
 import util.HttpUtil;
 
-//Quelle: https://github.com/ISchwarz23/FritzBox-API/blob/master/src/main/java/de/ingo/fritzbox/FritzBoxConnector.java
-
+/**
+ * 
+ * @author Adrian Hostettler
+ * 
+ * @version 1.0
+ * 
+ * @category business
+ *
+ * Quelle der Codestruktur: https://github.com/ISchwarz23/FritzBox-API/blob/master/src/main/java/de/ingo/fritzbox/FritzBoxConnector.java
+ * 
+ */
 public class FritzBoxConnector {
 	private final String url;
 	private final String password;

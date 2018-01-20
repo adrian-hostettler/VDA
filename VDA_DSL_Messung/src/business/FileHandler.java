@@ -10,15 +10,25 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-// Quelle: Modul Java 2 Abend 4 - Java I/O
+ 
+/**
+ * 
+ * @author Adrian Hostettler
+ * 
+ * @version 1.0
+ * 
+ * @category business
+ * 
+ * Quelle der Codestruktur: Modul Java 2 Abend 4 - Java I/O
+ *
+ */
 public class FileHandler {
 
 	private static Path pathReportFile = Paths.get("C:" + File.separator + "vda" + File.separator + "DSL_Data.txt");
 	
 	public Path createDirectory(){
 		
-		Path pathReport = Paths.get("C:" + File.separator + "vda");
+		Path pathReport = Paths.get("C:" + File.separator + "VDA_Report");
 		try {
 			if (!Files.exists(pathReport)) {
 				Files.createDirectory(pathReport);
@@ -53,7 +63,7 @@ public class FileHandler {
 	public void writeDataInFile(String dslDataAsString) {
 		try {
 			Path pathReportDir = createDirectory();
-			Path pathReportFile = createNewFile(pathReportDir, "DSL_Data");
+			Path pathReportFile = createNewFile(pathReportDir, "Report");
 			String pathReportFileAsString = (String) pathReportFile.toString();
 			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(pathReportFileAsString)));
 			pw.println(dslDataAsString);
