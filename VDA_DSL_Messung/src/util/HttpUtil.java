@@ -34,7 +34,6 @@ public class HttpUtil{
  */
 	private static InputStream getURL(String urlString){
 		try {
-		
 		URL url = new URL(urlString);
 		HttpURLConnection http = (HttpURLConnection)url.openConnection();
 		http.setRequestMethod("GET");
@@ -44,11 +43,11 @@ public class HttpUtil{
 		}
 		
 		catch(IOException ioe) {
-			System.out.println("IO Exception - Einloggen auf http://192.168.147.200/ hatte nicht geklappt!");
+			System.out.println("IO Exception - Überprüfen Sie die URL! " +ioe.getMessage());
 			ioe.printStackTrace();
 		}
 		catch(Exception e){
-			System.out.println("Einloggen auf http://192.168.147.200/ hatte nicht geklappt!");
+			System.out.println("Einloggen auf http://192.168.147.200/ hatte nicht geklappt! " +e.getMessage());
 			e.printStackTrace();
 		}
 		return null;

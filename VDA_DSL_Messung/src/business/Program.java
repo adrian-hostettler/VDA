@@ -25,9 +25,11 @@ public class Program {
 		// TODO Auto-generated method stub
 				
 				// 1. Verbindung herstellen
-				
+					
 				// Fritzbox-Connector aufrufen und URL sowie Passwort mitgeben
-				FritzBoxConnector fbCon = new FritzBoxConnector("http://192.168.147.200/", "admin");
+				FritzBoxConnector fbCon = new FritzBoxConnector("http://192.168.147.200/", "admin", "192.168.147.200");
+				// Verbindung zu FritzBox mittels Ping überprüfen
+				fbCon.isFritzBoxRechable();
 				// Einloggen durch erolgreiche Challenge der Fritzbox
 				fbCon.fritzBoxLogin();
 				

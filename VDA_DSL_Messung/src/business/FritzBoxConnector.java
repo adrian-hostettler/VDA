@@ -1,6 +1,7 @@
 package business;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.security.NoSuchAlgorithmException;
 
 import org.jsoup.nodes.Document;
@@ -20,16 +21,33 @@ import util.HttpUtil;
  * 
  */
 public class FritzBoxConnector {
+	private final String ipAdress;
 	private final String url;
 	private final String password;
 	private String sid;
 
 	// Beim erstellen eines FritzBoxConnector-Objekts werden URL und Passwort mitgegeben, da die IP-Adresse oder das Passwort verändert werden könnte
-	public FritzBoxConnector(String url, String password) {
+	public FritzBoxConnector(String url, String password, String ipAdress) {
 		this.url = url;
 		this.password = password;
+		this.ipAdress = ipAdress;
 	}
-	
+	/**
+	 * Methode um einen Ping auf die Fritzbox zu senden. Wenn keine Antwort kommt -> Fehlermeldung
+	 * 
+	 */
+	public void isFritzBoxRechable(){
+		 try{
+			 InetAddress address = InetAddress.getByName(ipAdress);
+			 if(!address.isReachable(5000)) {
+				 System.out.println("FritzBox nicht erreichbar! "); 
+			 }
+	        } catch (Exception e){
+	            e.printStackTrace();
+	            System.out.println("Verbindungstest zur FritzBox fehlgeschlagen! " + e.getMessage());
+	        }
+		 
+	}
 	/**
 	 * Das Login über die http Seite
 	 * Für das Login der FritzBox muss eine Challenge, welche von der Startseite
@@ -40,12 +58,16 @@ public class FritzBoxConnector {
 	 * 
 	 */
 	public void fritzBoxLogin() {
-		
 		String response;
 		response = HttpUtil.getURLasString(url + "login_sid.lua");
 		final String challenge = response.substring(response.indexOf("<Challenge>") + 11,
 				response.indexOf("</Challenge>"));
-		// System.out.println(challenge);
+		/*
+		 *  ***** Testing *****
+		 *	Die Challenge aus dem String vom Browser lesen
+		 *	System.out.println(challenge);
+		 *
+		 */
 		final String stringToHash = challenge + "-" + password;
 		String stringToHashUTF16;
 		try {
@@ -69,6 +91,7 @@ public class FritzBoxConnector {
 			// will never appear
 			nae.printStackTrace();
 		}
+		
 	}
 
 	/**
