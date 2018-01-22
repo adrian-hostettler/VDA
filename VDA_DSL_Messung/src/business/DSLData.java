@@ -17,8 +17,10 @@ import org.jsoup.select.Elements;
  *
  */
 public class DSLData {
+	
 	/**
 	 * Wandelt das Array mit Hilfe einer for each Schleife in einen String um
+	 * 
 	 * @param twoDimArray	Übergabe des zweidimensionalen Array
 	 * @return Das zweidimensionale Array als String
 	 * 
@@ -37,10 +39,13 @@ public class DSLData {
 
 	}
 	
-	public StringJoiner setEmptyValue(CharSequence emptyValue) {
-		return null;
-	}
-	// speichern der DSL Daten als Tabelle in 2 dimensionalem Array
+
+	/**
+	 * Nimmt Object und füllt es mit Iteration in das zweidimensionale Array ab
+	 * 
+	 * @param response
+	 * @return twoDimArray
+	 */
 	public String [][] saveDSLDataInTwoDimArray(Document response) {
 
 		// Zweidimensionales Array erstellen um Tabelle der DSL-Daten abzubilden
@@ -95,11 +100,15 @@ public class DSLData {
 		
 	}
 
+	/**
+	 * Übergibt zweidimensionales Array wandelt es zu einem String und übergibt es dem Filehandler
+	 * 
+	 * @param twoDimArray
+	 */
 	public void writeDSLData (String[][] twoDimArray) {
 		
 		FileHandler filehandler = new FileHandler();
 		filehandler.writeDataInFile(castDSLDataToString(twoDimArray));
-		
 		
 		/*
 		 *  ***** Testing *****

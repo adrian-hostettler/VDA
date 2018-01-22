@@ -7,37 +7,40 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.xml.ws.http.HTTPException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
-
+/**
+ * 
+ * @author Adrian Hostettler
+ * 
+ * @version 1.0
+ * 
+ * @category util
+ *
+ * Quelle der Codestruktur: https://stackoverflow.com/questions/4755647/how-to-access-https-sites-in-java
+ */
 
 public class HttpUtil{
 	
-//	Quelle: https://stackoverflow.com/questions/4755647/how-to-access-https-sites-in-java
-	
-	private static InputStream getURL(String urlString) {
+/**
+ * 
+ * Inputstream der Login Seite interpretieren
+ * 
+ * @param urlString
+ * @return inputSteam
+ */
+	private static InputStream getURL(String urlString){
 		try {
 		
-//		 URL bekannt, da eine statische IP-Adresse vergeben wurde
 		URL url = new URL(urlString);
 		HttpURLConnection http = (HttpURLConnection)url.openConnection();
-		
-		
-//		Get Methode, da nur Daten zu lesen sind
 		http.setRequestMethod("GET");
 		http.connect();
 		InputStream inputStream = http.getInputStream();
 		return inputStream;
-		}
-		
-//		@TODO Recherche Internet, warum HTTP Exception nicht geht
-		catch(HTTPException he) {
-			System.out.println("HTTPS Exception - Einloggen auf http://192.168.147.200/ hatte nicht geklappt!");
-			throw(new HTTPException(404));
 		}
 		
 		catch(IOException ioe) {
@@ -46,29 +49,67 @@ public class HttpUtil{
 		}
 		catch(Exception e){
 			System.out.println("Einloggen auf http://192.168.147.200/ hatte nicht geklappt!");
+			e.printStackTrace();
 		}
 		return null;
 	}
+	
 
-	public static String getURLasString(String urlString) throws IOException {
+	/**
+	 * Interpretiert Antwort vom Browser als String
+	 * 
+	 * @param urlString
+	 * @return stringBuilder
+	 * @throws Exception 
+	 * 
+	 */
+	public static String getURLasString(String urlString) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(getURL(urlString)));
         StringBuilder stringBuilder = new StringBuilder();
         String line = null;
-        while ((line = reader.readLine()) != null)
-        {
-            stringBuilder.append(line + "\n");
-        }
+        try {
+			while ((line = reader.readLine()) != null)
+			{
+			    stringBuilder.append(line + "\n");
+			}
+		} catch (IOException ioe) {
+			// TODO Auto-generated catch block
+			System.out.println("Lesen des Input Streams hatte nicht geklappt!");
+			ioe.printStackTrace();
+		}
+        /*
+		 *  ***** Testing *****
+		 *	Was erwartet mich vom Browser?
+		 *	System.out.println(stringBuilder.toString());
+		 */
 		
-		// Test: Was erwartet mich vom Browser 
-		// System.out.println(stringBuilder.toString());
 		return stringBuilder.toString();
 	}
 	
-	public static Document getURLasDocument(String urlString) throws IOException {
-//		String url = urlString.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
+	/**
+	 * Liest mit Hilfe von Jsoup den Inhalt der Fritz!Box als Document
+	 * 
+	 * @param urlString
+	 * @return
+	 * @throws Exception 
+	 */
+	public static Document getURLasDocument(String urlString){
+		 /*
+		 *  ***** Testing *****
+		 *	Beinhaltet die Session ID etwas?
+		 *	String url = urlString.substring(urlWithChallenge.indexOf("<SID>") + 5, urlWithChallenge.indexOf("</SID>"));
+		 */	
 		InputStream is = getURL(urlString);
-		Document jsoupDoc = (Document) Jsoup.parse(is, null,"");
-		return jsoupDoc;
+		Document jsoupDoc;
+		try {
+			jsoupDoc = (Document) Jsoup.parse(is, null,"");
+			return jsoupDoc;
+		} catch (IOException ioe) {
+			// TODO Auto-generated catch block
+			System.out.println("Wandeln vom Input Stream in Document hatte nicht geklappt!");
+			ioe.printStackTrace();
+		}
+		return null;
 		
 	}
 	

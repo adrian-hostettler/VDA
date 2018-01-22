@@ -2,13 +2,25 @@ package business;
 
 
 
-import java.util.StringJoiner;
 
 import org.jsoup.nodes.Document;
-
+/**
+ * 
+ * @author Adrian Hostettler
+ * 
+ * @version 1.0
+ * 
+ * @category business
+ *
+ */
 
 public class Program {
-
+	
+	/**
+	 * Main Methode für den Programmablauf
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 				
@@ -18,20 +30,21 @@ public class Program {
 				FritzBoxConnector fbCon = new FritzBoxConnector("http://192.168.147.200/", "admin");
 				// Einloggen durch erolgreiche Challenge der Fritzbox
 				fbCon.fritzBoxLogin();
-				// DSL Daten aus HTML lesen und in Document abspeichern
-				Document docDSLData = fbCon.readDSLDataAsDocument();
+				
 				
 				// 2. DSL Daten Verarbeitung
 				
+				// DSL Daten aus HTML lesen und in Document abspeichern
+				Document docDSLData = fbCon.readDSLDataAsDocument();
 				// DSL Data als Hilfsklasse aufrufen und Document in Array abspeichern
 				DSLData dslData = new DSLData();
 				String [] [] twoDimArray = dslData.saveDSLDataInTwoDimArray(docDSLData);
 				
-				// 3. Ausgabe der DSL Daten über DSL Data Klasse und FileHandler
-				
+				// 3. Ausgabe der DSL Daten über DSLData Klasse und FileHandler
+				// Schreiben ins Textfile
 				dslData.writeDSLData(twoDimArray);
-		
 				
+	
 		
 	}
 

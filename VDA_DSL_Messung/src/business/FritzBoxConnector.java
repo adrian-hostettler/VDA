@@ -1,6 +1,5 @@
 package business;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -25,26 +24,25 @@ public class FritzBoxConnector {
 	private final String password;
 	private String sid;
 
+	// Beim erstellen eines FritzBoxConnector-Objekts werden URL und Passwort mitgegeben, da die IP-Adresse oder das Passwort verändert werden könnte
 	public FritzBoxConnector(String url, String password) {
 		this.url = url;
 		this.password = password;
 	}
-
+	
+	/**
+	 * Das Login über die http Seite
+	 * Für das Login der FritzBox muss eine Challenge, welche von der Startseite
+	 * zurückgeschickt wird behandelt werden. Über eine MD5 Encryption schicken wir
+	 * die Challenge inklusive Passwort an die FritzBox zurück Ist diese Challenge
+	 * mit Passwort korrekt erhalten wir eine gültige SID
+	 * @throws Exception 
+	 * 
+	 */
 	public void fritzBoxLogin() {
-		/*
-		 * Für das Login der FritzBox muss eine Challenge, welche von der Startseite
-		 * zurückgeschickt wird behandelt werden. Über eine MD5 Encryption schicken wir
-		 * die Challenge inklusive Passwort an die FritzBox zurück Ist diese Challenge
-		 * mit Passwort korrekt erhalten wir eine gültige SID
-		 */
+		
 		String response;
-		try {
-			response = HttpUtil.getURLasString(url + "login_sid.lua");
-		} catch (IOException ioe) {
-			// TODO Auto-generated catch block
-			ioe.printStackTrace();
-			return;
-		}
+		response = HttpUtil.getURLasString(url + "login_sid.lua");
 		final String challenge = response.substring(response.indexOf("<Challenge>") + 11,
 				response.indexOf("</Challenge>"));
 		// System.out.println(challenge);
@@ -70,39 +68,31 @@ public class FritzBoxConnector {
 		} catch (final NoSuchAlgorithmException nae) {
 			// will never appear
 			nae.printStackTrace();
-		} catch (IOException ioe) {
-			// TODO Auto-generated catch block
-			ioe.printStackTrace();
 		}
 	}
 
+	/**
+	 * Mit der Jsoup Library und HttpUtil gelande ich an die HTML-Tags der Fritzbox und bekomme sie als Document
+	 * 
+	 * @return response
+	 * 
+	 * Quelle der Codestruktur: https://stackoverflow.com/questions/8222118/using-jsoup-to-extract-html-table-contents
+	 * Quelle der Codestruktur: https://jsoup.org/cookbook/extracting-data/attributes-text-html
+	 * 
+	 */
 	public Document readDSLDataAsDocument() {
-		/*
-		 * Über den URL: http://192.168.147.200/internet/dsl_status_tab.lua=[*SID]
-		 * gelange ich zu den DSL-Informationen
-		 * 
-		 * Quellen:
-		 * https://stackoverflow.com/questions/8222118/using-jsoup-to-extract-html-table
-		 * -contents
-		 * 
-		 * https://jsoup.org/cookbook/extracting-data/attributes-text-html
-		 */
+		
 		Document response = null;
-		try {
-			response = HttpUtil.getURLasDocument(url + "internet/dsl_stats_tab.lua?sid=" + sid);
-			
-			return response;
-			// Test: Ganze Tabelle mit Informationen als in Elementen speichern und
-			// anschliessend ausgeben
-			// Elements dslData = (Elements) response.getElementsByClass("zebra");
-			// System.out.println(dslData);
-
-		} catch (IOException ioe) {
-			// TODO Auto-generated catch block
-			ioe.printStackTrace();
-		}
-
+		response = HttpUtil.getURLasDocument(url + "internet/dsl_stats_tab.lua?sid=" + sid);
 		return response;
+		/*
+		 *  ***** Testing *****
+		 *	Ganze Tabelle mit Informationen als in Elementen speichern und anschliessend ausgeben
+		 *	Elements dslData = (Elements) response.getElementsByClass("zebra");
+		 *	System.out.println(dslData);
+		 *
+		 */
+
 	}
 				
 }

@@ -23,8 +23,16 @@ import java.nio.file.Paths;
  *
  */
 public class FileHandler {
-
-	private static Path pathReportFile = Paths.get("C:" + File.separator + "vda" + File.separator + "DSL_Data.txt");
+	
+	// Klassenvariable statisch
+	private static Path pathReportFile = Paths.get("C:" + File.separator + "VDA_Report" + File.separator + "Report.txt");
+	
+	/**
+	 * Erstell im Laufwerk C einen Ordner VDA_Report
+	 * Laufwerk C, weil jede Maschine eines besitzt und Zugriff darauf hat
+	 * 
+	 * @return pathReport
+	 */
 	
 	public Path createDirectory(){
 		
@@ -44,6 +52,13 @@ public class FileHandler {
 		return pathReport;
 	}
 	
+	/**
+	 * Ersetzt vorhandenes File im Ordner VDA_Report
+	 * 
+	 * @param dir
+	 * @param fileName
+	 * @return pathReportFile
+	 */
 	public Path createNewFile(Path dir, String fileName) {
 		
 		Path pathReportFile = dir.resolve(fileName + ".txt");
@@ -60,6 +75,11 @@ public class FileHandler {
 		return pathReportFile;
 	}
 	
+	/**
+	 * Schreibt die DSL Daten als String ins Text-File Report
+	 * 
+	 * @param dslDataAsString
+	 */
 	public void writeDataInFile(String dslDataAsString) {
 		try {
 			Path pathReportDir = createDirectory();
@@ -78,6 +98,9 @@ public class FileHandler {
 	
 	}
 	
+	/**
+	 * Liest den Inhalt vom Text-File Report
+	 */
 	public void readDataInFile() {
 		
 		try {
