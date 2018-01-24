@@ -80,13 +80,13 @@ public class FileHandler {
 	 * 
 	 * @param dslDataAsString
 	 */
-	public void writeDataInFile(String dslDataAsString) {
+	public void writeDataInFile(String twoDimArray) {
 		try {
 			Path pathReportDir = createDirectory();
 			Path pathReportFile = createNewFile(pathReportDir, "Report");
 			String pathReportFileAsString = (String) pathReportFile.toString();
 			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(pathReportFileAsString)));
-			pw.println(dslDataAsString);
+			pw.println(twoDimArray);
 			pw.close();
 		}
 		catch (IOException ioe) {

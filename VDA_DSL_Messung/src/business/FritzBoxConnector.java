@@ -40,7 +40,7 @@ public class FritzBoxConnector {
 		 try{
 			 InetAddress address = InetAddress.getByName(ipAdress);
 			 if(!address.isReachable(5000)) {
-				 System.out.println("FritzBox nicht erreichbar! "); 
+				 System.out.println("Ping-Test fehlgeschlagen! "); 
 			 }
 	        } catch (Exception e){
 	            e.printStackTrace();
@@ -104,10 +104,16 @@ public class FritzBoxConnector {
 	 * 
 	 */
 	public Document readDSLDataAsDocument() {
-		
-		Document response = null;
-		response = HttpUtil.getURLasDocument(url + "internet/dsl_stats_tab.lua?sid=" + sid);
-		return response;
+		try {
+			Document response = null;
+			response = HttpUtil.getURLasDocument(url + "internet/dsl_stats_tab.lua?sid=" + sid);
+			return response;
+		}
+		catch(Exception e){
+			System.out.println("Fehler beim Lesen der Daten! " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
 		/*
 		 *  ***** Testing *****
 		 *	Ganze Tabelle mit Informationen als in Elementen speichern und anschliessend ausgeben

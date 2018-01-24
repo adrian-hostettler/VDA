@@ -23,7 +23,10 @@ public class Program {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+				System.out.println("Programm Start!");
 				
+				System.out.println("1. Verbindung");
 				// 1. Verbindung herstellen
 					
 				// Fritzbox-Connector aufrufen und URL sowie Passwort mitgeben
@@ -33,7 +36,7 @@ public class Program {
 				// Einloggen durch erolgreiche Challenge der Fritzbox
 				fbCon.fritzBoxLogin();
 				
-				
+				System.out.println("2. Verarbeitung");
 				// 2. DSL Daten Verarbeitung
 				
 				// DSL Daten aus HTML lesen und in Document abspeichern
@@ -42,11 +45,12 @@ public class Program {
 				DSLData dslData = new DSLData();
 				String [] [] twoDimArray = dslData.saveDSLDataInTwoDimArray(docDSLData);
 				
+				System.out.println("3. Ausgabe");
 				// 3. Ausgabe der DSL Daten über DSLData Klasse und FileHandler
 				// Schreiben ins Textfile
 				dslData.writeDSLData(twoDimArray);
 				
-	
+				System.out.println("Programm Ende!");
 		
 	}
 

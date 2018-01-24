@@ -105,7 +105,7 @@ public class DSLData {
 	 * 
 	 * @param twoDimArray
 	 */
-	public void writeDSLData (String[][] twoDimArray) {
+	public void writeDSLData (String [] [] twoDimArray) {
 		
 		FileHandler filehandler = new FileHandler();
 		filehandler.writeDataInFile(castDSLDataToString(twoDimArray));

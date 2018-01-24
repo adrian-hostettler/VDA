@@ -43,7 +43,7 @@ public class HttpUtil{
 		}
 		
 		catch(IOException ioe) {
-			System.out.println("IO Exception - Überprüfen Sie die URL! " +ioe.getMessage());
+			System.out.println("Überprüfen Sie die URL! " +ioe.getMessage());
 			ioe.printStackTrace();
 		}
 		catch(Exception e){
@@ -89,7 +89,7 @@ public class HttpUtil{
 	 * Liest mit Hilfe von Jsoup den Inhalt der Fritz!Box als Document
 	 * 
 	 * @param urlString
-	 * @return
+	 * @return jsoupDoc
 	 * @throws Exception 
 	 */
 	public static Document getURLasDocument(String urlString){
@@ -105,7 +105,7 @@ public class HttpUtil{
 			return jsoupDoc;
 		} catch (IOException ioe) {
 			// TODO Auto-generated catch block
-			System.out.println("Wandeln vom Input Stream in Document hatte nicht geklappt!");
+			System.out.println("Wandeln vom Input-Stream in Document hatte nicht geklappt! " + ioe.getMessage());
 			ioe.printStackTrace();
 		}
 		return null;
